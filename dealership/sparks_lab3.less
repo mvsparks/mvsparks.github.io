@@ -1,0 +1,92 @@
+@page-bg-color: black; //body color
+@button-color: gray; //button background, button border
+@table-bg-color: gray; //table background
+@font: sans-serif, "Times New Roman", serif;
+@table-font-size: 18px; 
+@header-font-size: 24px;
+@padding: 3px;
+@border: 4px;
+@font-color: white;
+
+table{
+	color: @font-color;
+}
+body{
+	background-color: @page-bg-color;
+}
+.img{
+	margin: auto;
+	width: 400px;
+	height: 200px;
+	padding: 5px;
+	.round_top(@border);
+	.round_bottom(@border);
+}
+.logo{
+	margin: auto;
+	width: 800px;
+	padding: 5px;
+	.round_top(@border);
+	.round_bottom(@border);
+}
+h4{
+	font-family: @font;
+	font-size: @header-font-size;
+	text-align: center;
+}
+h3{
+	font-family: @font;
+	font-size: @header-font-size;
+	text-align: center;
+	color: @font-color;
+}
+.round_top(@border_size){
+        -webkit-border-top-left-radius: @border_size*4;
+        -webkit-border-top-right-radius: @border_size*4;
+        -moz-border-radius-topleft: @border_size*4;
+        -moz-border-radius-topright: @border_size*4;
+        border-top-left-radius: @border_size*4;
+        border-top-right-radius: @border_size*4;
+} 
+.round_bottom(@border_size){
+	-webkit-border-bottom-left-radius: @border_size*4;
+	-webkit-border-bottom-right-radius: @border_size*4;
+    	-moz-border-radius-bottomleft: @border_size*4; 
+    	-moz-border-radius-bottomright: @border_size*4;
+    	border-bottom-left-radius: @border_size*4; 
+    	border-bottom-right-radius: @border_size*4;
+}
+button{
+	background: -moz-linear-gradient(bottom,  @button-color - #222,  @button-color + #222);
+	border: darken(@button-color, 30%);
+	padding: @padding @padding*2;
+	.round_top(@border/4);
+	.round_bottom(@border/4);
+}
+button:hover{
+	background: lighten(@button-color, 20%);
+	border: lighten(@button-color, 100%);
+	cursor: pointer;
+}
+.form1{
+	background: -moz-linear-gradient(left,  @table-bg-color - #333,  @table-bg-color + #555);
+	text-align: center;
+	.round_top(@border);
+	.round_bottom(@border);
+	width: 80%;
+	margin: auto;
+	font-size: @table-font-size;
+}
+.panel1{
+	background-color: black;
+}
+label{
+	color: @font-color;
+}
+p{
+	font-family: @font;
+	font-size: @header-font-size;
+	text-align: center;
+	color: @font-color;  
+}
+
