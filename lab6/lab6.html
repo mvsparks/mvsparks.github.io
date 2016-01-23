@@ -1,0 +1,297 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <link rel="stylesheet" href="http://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/css/bootstrap.min.css">
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js"></script>
+  <script src="http://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/js/bootstrap.min.js"></script>
+  
+  <link rel="stylesheet" type="text/css" href="lab6.css">
+  
+  
+  <title>Starship Invaders</title>
+  
+<script>
+
+var score = 0;
+var speed = 10000;
+var baseLife = 100;
+var shotSpeed = 500;
+var spawnRate = 800;
+var enemyHit = false;
+var currentShots = 0;
+var currentEnemies = 0;
+var enemyInterval;
+var respawnInterval;
+var mouseLocation;
+var start = true;
+var startScreen;
+var randomColor;
+var divColorInterval
+	
+//moving player based on mouse position
+//Based tracking on example by Tats_innit created 04/19/2012
+//from: http://stackoverflow.com/questions/9972449/rotating-an-element-based-on-cursor-position-in-a-separate-element
+
+$(document).on("mousemove", function(event) {
+		
+	//updating mouse location
+	mouseLocation = event;
+	
+	//Getting player location
+	var player = $("#player");
+	var playerOffset = player.offset();
+
+	//Getting player center to determine shoot starting position
+	var playerCenterX = (playerOffset.left) + (player.width()/2);
+	var playerCenterY = (playerOffset.top) + (player.height()/2);
+
+	//tracking mouse x
+    var mouseX = mouseLocation.pageX; 
+	//tracking mouse y
+	var mouseY = mouseLocation.pageY;
+	
+	//Determining how much to turn player based on mouse location
+    var radians = Math.atan2(mouseX - playerCenterX, mouseY - playerCenterY);
+    var degrees = (radians * (180 / Math.PI) * -1) + 90; 
+
+		//turning player toward mouse location
+		player.css('-ms-transform', 'rotate('+degrees+'deg)');
+		player.css('-webkit-transform', 'rotate('+degrees+'deg)');
+		player.css('transform', 'rotate('+degrees+'deg)');
+		player.css('-moz-transform', 'rotate('+degrees+'deg)');
+		
+});
+
+///////////////////////////////Getting target position///////////////////////////////
+$(document).on("keydown", function(event){
+	if(event.keyCode == "32"){	
+		//Getting player location
+		var player = $("#player");
+		var playerOffset = player.offset();
+		
+		//Target position is location of cursor on click
+		var targetPositionX = mouseLocation.pageX; //cursor x
+		var targetPositionY = mouseLocation.pageY; //cursor y
+		
+		//Setting up location of ammo start
+		var ammoStartX = (playerOffset.left) + (player.width()/2) + 15;
+		var ammoStartY = (playerOffset.top) + (player.height()/2);
+	
+		if(currentShots < 50){	
+			currentShots++;
+		}
+		else{
+			currentShots = 0;
+		}
+	
+		//ammo constructor
+		function ammo() {
+			this.id = currentShots;
+			this.src = "ammo.png";
+			this.classType = "ammo";
+			this.top = ammoStartY;
+			this.left = ammoStartX;
+			this.targetX = targetPositionX;
+			this.targetY = targetPositionY;
+			this.speed = 300;
+			this.containerID = "screen";
+		}
+		//creating object
+		var newAmmo = new ammo();
+		
+		//creating image
+		appendDiv(newAmmo);
+				
+		//moving to target position
+		moveToTarget(newAmmo);
+			
+		//checking if enemy is hit
+		enemyHit = checkIfHit(mouseLocation);
+		
+		//increment score if enemy hit is true
+		if(enemyHit){
+			score += 100;
+			$("#score").text(score);
+		}
+	}
+});
+
+////////////////////////////////////////appending ammo to div////////////////////////////////////
+function appendDiv(object){
+	$("#"+object.containerID).append('<img src="'+object.src+'" id='+object.id+' class="'+object.classType+'" style="position: absolute; top: '+object.top+'px; left: '+object.left+'px;">'); 
+}
+
+
+////////////////////////////////////////Moving ammo to enemy location////////////////////////////
+function moveToTarget(object){
+	var newObject = $("#"+object.id);
+	newObject.animate({top: object.targetY, left: object.targetX}, object.speed, "linear");
+	setInterval(function(){newObject.remove();}, object.speed);
+}
+
+//////////////////////////////////////Creating enemy///////////////////////////////
+function createEnemy(){
+
+	//Getting base location
+	var base = $("#baseDiv");
+	var baseOffset = base.offset();
+	var basePositionX = (baseOffset.left) + base.width() + 40;
+	var basePositionY = (baseOffset.top) + (base.height() - ((Math.random() * + 60)));
+	
+	//creating enemy start location
+	var enemyStartY = (Math.random() * 400);
+	var enemyStartX = $(document).width() - $(".enemyDiv").width();
+
+	if(currentEnemies < 50){
+		currentEnemies++;
+	}
+	else{
+		currentEnemies = 0;
+	}
+
+	//enemy constructor
+	function enemy() {
+		this.id = currentEnemies;
+		this.src = "enemyAlive.png";
+		this.top = enemyStartY;
+		this.left = enemyStartX;
+		this.targetX = basePositionX;
+		this.targetY = basePositionY;
+		this.classType = "enemy";
+		this.speed = speed;
+		this.containerID = "enemy";
+    }
+	
+	//creating a new enemy
+	var newEnemy = new enemy();
+	
+	//appending enemy to div
+	addEnemyDiv(newEnemy);
+	
+	//moving enemy to player location
+	enemyToPlayer(newEnemy);
+}
+/////////////////////////////////adding enemy to div///////////////////////////////////
+function addEnemyDiv(object){
+	$(".div").append('<div id="enemy'+object.id+'container" class="enemyDiv" style="position: absolute; top: '+object.top+'px; left: '+object.left+'px;"></div>');
+	$("#"+object.containerID+object.id+"container").append('<img src="'+object.src+'" id="enemy'+object.id+'" class="'+object.classType+'" >'); 
+}
+
+//////////////////////////////////Moving enemy to player position//////////////////////
+function enemyToPlayer(object){
+	var newObject = $("#enemy"+object.id+"container");
+	newObject.animate({top: object.targetY, left: object.targetX}, object.speed, "linear");
+	
+	setTimeout(function(){newObject.fadeOut(); enemyEntered(object)}, object.speed);
+	setTimeout(function(){newObject.remove();}, object.speed + 500);
+}
+/////////////////////////////checking if enemy has been hit///////////////////////////////////
+function checkIfHit(mouseLocation){
+	//if the mouse is targeting an "enemy" while shooting
+	//change class to "enemyShot" and change source 
+	//to enemy shot then return true
+	if(mouseLocation.target.className == "enemy"){
+		mouseLocation.target.className = "enemyShot";
+		var enemy = $(mouseLocation.target);
+		var enemyID = $(mouseLocation.target.id);
+		setTimeout(function(){mouseLocation.target.src = "enemyShot.png";enemyID.stop();},500);
+		setTimeout(function(){enemy.fadeOut();}, 2000);
+		setTimeout(function(){enemy.remove();}, 3000);
+		return true;
+	}
+}
+
+////////////////////////////////checking if enemy entered base//////////////////////////////////
+function enemyEntered(object){
+	lifeBar = $("#lifeBar");
+	//at the end of timeout if enemy class is still "enemy"
+	if($("#enemy"+object.id).attr("class") == "enemy"){
+		//if base it still alive decrease life
+		if(baseLife > 0){
+			baseLife -= 5;
+			lifeBar.css('width', baseLife+'%');
+			if(baseLife > 70){/*Stay green*/}
+			//turn yellow
+			else if(baseLife > 30){
+				lifeBar.attr("class","progress-bar progress-bar-warning");
+			}
+			//turn red
+			else{
+				lifeBar.attr("class","progress-bar progress-bar-danger");
+			}
+		} 
+		
+	}
+	//if base has no life clear screen and display 
+	//game over message and allow them to restart
+	if(baseLife == 0){
+		$("document").stop();
+		$("#screen").empty();
+		$("#screen").append('<div style="margin: auto; width: 80%; padding-top: 20px;"><p>GAME OVER.<br>Score:'+score+'</p><p><a class="btn" href="lab6.html" id="restartButton">Restart Game</a>');
+		clearInterval(enemyInterval);
+		clearInterval(spawnInterval);
+		colorChange();
+	}
+}
+
+//Clear start screen and add base, score and start enemy intervals
+function startGame(){
+	clearInterval(colorInterval);
+	$("#startUp").remove();
+	$("#scoreTable").append('<table><tbody><tr><td style="padding: 10px;">SCORE:</td><td id="score"></td></tr></tbody></table>');
+	$("#baseDiv").append('<div class="progress">'
+						+ '<div id="lifeBar" class="progress-bar progress-bar-success" role="progressbar" aria-valuenow="100" aria-valuemin="0" aria-valuemax="100" style="width:100%">'
+						+ '</div></div>'
+						+ '<img id="base" src="base.png" style="margin: auto;">');
+	$("#playerDiv").append('<img id="player" src="player.png" style="margin: auto;">');
+	$("#score").text(score);
+		
+	//////////////////////////setting speed of enemies quicker every 5 seconds ////////////////////
+	spawnInterval = setInterval(function(){if(speed > 4000){speed = speed - 500}if(spawnRate > 500){spawnRate = spawnRate - 500}}, 5000);
+
+	////////////////////////////creating interval to create enemies/////////////////////////////
+	enemyInterval = setInterval(createEnemy, spawnRate);
+	divColorChange();
+}
+
+// random color generator from: http://stackoverflow.com/questions/1484506/random-color-generator-in-javascript
+function colorChange(){
+	colorInterval = setInterval(function(){randomColor = '#'+(Math.random()*0xFFFFFF<<0).toString(16); $('p').css("box-shadow",'0 0 10px '+ randomColor);$('.btn').css("box-shadow",'0 0 10px '+ randomColor);}, 2000);
+}
+
+function divColorChange(){
+	divColorInterval = setInterval(function(){randomColor = '#'+(Math.random()*0xFFFFFF<<0).toString(16); $('.div').css("box-shadow",'inset 0 0 20px '+ randomColor);}, 2000);
+}
+</script>
+
+</head>
+<body onload="colorChange();">
+
+<div id="screen" class="div">
+	<div id="startUp" style="margin: auto; width: 80%; padding-top: 100px; background-color: black;">
+		<p>Welcome to Starship Invaders<br>
+		<a class="btn" data-toggle="collapse" data-target="#instructions" id="intstructButton">Instructions</a><br>
+		<a class="btn" onclick="startGame()" id="startButton">Start Game</a></p>
+			<div id="instructions" class="collapse">
+				<p style="font-size: 30px; color: White;">You need to protect your base at all cost.<br>
+				Use the cursor to target your enemy and the spacebar to shoot(pulse or hold).<br>
+				Make sure to shoot the enemy before they over run your base.</p>
+			</div>
+	</div>
+	<div id="playerDiv">
+		
+	</div>
+	<div id="scoreTable" class="table-condensed">
+		
+	</div>
+	<div id="baseDiv">
+	
+	</div>
+</div>
+
+
+
+</body>
+</html>

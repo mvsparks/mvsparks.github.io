@@ -1,0 +1,73 @@
+html, body {
+    background-color: #FFF;
+    height: 100%;
+    margin: 0px;
+	-webkit-user-select: none;
+    -moz-user-select: -moz-none;
+    -ms-user-select: none;
+    user-select: none;
+  }
+.div {
+	width: 100%;
+	min-height: 100%;
+    background-color: black;
+	cursor: url(cursor.png)25 15, auto;
+	-webkit-transition-property: box-shadow; 
+    -webkit-transition-duration: 2s;
+    transition-property: box-shadow;
+    transition-duration: 2s;
+}
+.enemyDiv{
+	width: 70px;
+	height: 100px;
+}
+
+#player{
+	position: absolute;
+	left: 50%;
+	top: 75%;
+	width: 70px;
+	height: 100px;}
+
+.enemy{
+	position: absolute;
+	width: auto;
+	margin: auto;
+}
+
+.ammo{
+	position: absolute;
+	box-shadow: 0 0 10px Red;
+}
+#scoreTable{
+	font-size: 50px;
+	text-shadow: 0 0 20px DodgerBlue;
+	color: White;
+}
+#baseDiv{
+	position: absolute;
+	top: 35%;
+	width: 190px;
+	height: 130px;
+	padding-left: 20px;
+}
+p{
+	color: White;
+	font-size: 80px;
+	text-align: center;
+	box-shadow: 0 0 10px Red;
+	-webkit-transition-property: box-shadow;
+    -webkit-transition-duration: 2s;
+    transition-property: box-shadow;
+    transition-duration: 2s;
+}
+.btn{
+	font-size: 50px;
+	box-shadow: 0 0 10px Red;
+	color: White;
+	float: center;
+	-webkit-transition-property: box-shadow;
+    -webkit-transition-duration: 2s;
+    transition-property: box-shadow;
+    transition-duration: 2s;
+}
