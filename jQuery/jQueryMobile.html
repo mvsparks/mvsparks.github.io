@@ -24,7 +24,7 @@
 
   <div data-role="main" class="ui-content">
     <p>Welcome! If you click on the link below, it will take you to Page Two.</p>
-    <a href="#pagetwo">Go to Page Two</a>
+    <a href="#pagetwo" data-transition="flip">Go to Page Two</a>
   </div>
 
   <div data-role="footer">
@@ -47,7 +47,8 @@
 <div data-role="page" id="pagetwo" data-theme="a">
   <div data-role="header">
     <h1>Page Two</h1>
-	<button onclick="changeTheme();">Switch Theme</button>
+	<a onclick="changeTheme();">Switch Theme</a>
+	<a href="#pageone" data-transition="flip">Page One</a>
   </div>    
   <div data-role="main" class="ui-content">
       <form method="post" action="demoform.asp">
@@ -81,12 +82,13 @@
       <input type="submit" data-inline="true" value="Submit"></input>
       </form>
     </div>
+<div data-role="footer">
+    <h1>Footer Text</h1>
+  </div>
   </div>
   
 
-  <div data-role="footer">
-    <h1>Footer Text</h1>
-  </div>
+  
 </div> 
 
 </body>
