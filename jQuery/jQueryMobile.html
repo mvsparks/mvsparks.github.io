@@ -31,10 +31,23 @@
     <h1>Footer Text</h1>
   </div>
 </div> 
-
-<div data-role="page" id="pagetwo">
+<script>
+	function changeTheme(){
+		var currentTheme = $("#pagetwo").attr("data-theme");
+		if(currentTheme == 'b'){
+			$('#pagetwo').attr('data-theme', 'a'); 
+			$('#pagetwo').attr('class', 'ui-page ui-page-theme-a ui-page-active');
+		}
+		else{
+			$('#pagetwo').attr('data-theme', 'b'); 
+			$('#pagetwo').attr('class', 'ui-page ui-page-theme-b ui-page-active');
+		}
+	}
+</script>
+<div data-role="page" id="pagetwo" data-theme="a">
   <div data-role="header">
     <h1>Page Two</h1>
+	<button onclick="changeTheme();">Switch Theme</button>
   </div>    
   <div data-role="main" class="ui-content">
       <form method="post" action="demoform.asp">
@@ -65,10 +78,11 @@
           <label for="blue">Blue</label>
           <input type="checkbox" name="favcolor" id="blue" value="blue" checked>	
       </fieldset>
-      <input type="submit" data-inline="true" value="Submit">
+      <input type="submit" data-inline="true" value="Submit"></input>
       </form>
     </div>
   </div>
+  
 
   <div data-role="footer">
     <h1>Footer Text</h1>
