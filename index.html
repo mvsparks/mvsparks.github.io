@@ -104,6 +104,7 @@
 
 <script type="text/javascript">
     function weather() {
+        alert("Working");
         var zip = $("#zip").val();
         var weatherRequest = "api.openweathermap.org/data/2.5/weather?zip="+zip+",us";
         $.getJSON(weatherRequest, function(data) {
