@@ -41,7 +41,44 @@
            padding: 10px;
        }
 	</style>
-	<script>
+	
+</head>
+<body>
+
+<div data-role="page" id="pageone">
+  <div data-role="header">
+    <h1>Welcome To My Homepage</h1>
+  </div>
+
+  <div id="main" class="ui-content">
+	<a href="game/starshipInvaders.html" class="btn btn-default btn-md" >Game</a>
+	<a href="dealership/bmwHomepage.html" class="btn btn-default btn-md">Dealership</a>
+	<a class="btn btn-default btn-md" onclick="JSONTest()" >HubSpot Script</a><br>
+      <input id="zip"></input>
+      <a class="btn btn-default btn-md" onclick="weather()" >Check Weather</a><br>
+  </div>
+  <div id="images"></div>
+</div>  
+
+<script>
+(function() {
+  var flickerAPI = "http://api.flickr.com/services/feeds/photos_public.gne?jsoncallback=?";
+  $.getJSON( flickerAPI, {
+    tags: "nature",
+    tagmode: "any",
+    format: "json"
+  })
+    .done(function( data ) {
+      $.each( data.items, function( i, item ) {
+        $( "<img>" ).attr( "src", item.media.m ).appendTo( "#images" );
+        if ( i === 27 ) {
+          return false;
+        }
+      });
+    });
+})();
+</script>
+<script>
        function JSONTest(){
            var hubspot = "https://api.hubapi.com/calendar/v1/events/task/600442?hapikey=demo";
             $.getJSON({ hubspot, 
@@ -57,48 +94,25 @@
                   "topicIds": [330075656]
                 },
                 success: function(response){
-                    console.log(response);
+                    alert(success);
                 },
                 error: function(response){
-                    console.log("Error");
+                    alert("Error");
                 }
            });
         }
     </script>
-</head>
-<body>
 
-<div data-role="page" id="pageone">
-  <div data-role="header">
-    <h1>Welcome To My Homepage</h1>
-  </div>
 
-  <div id="main" class="ui-content">
-	<a href="game/starshipInvaders.html" class="btn btn-default btn-md" >Game</a>
-	<a href="dealership/bmwHomepage.html" class="btn btn-default btn-md">Dealership</a>
-	<a type="btn btn-default btn-md" onclick="JSONTest()" >HubSpot Script</a>
-  </div>
-  <div id="images"></div>
-</div>  
 
-<script>
-(function() {
-  var flickerAPI = "http://api.flickr.com/services/feeds/photos_public.gne?jsoncallback=?";
-  $.getJSON( flickerAPI, {
-    tags: "mount rainier",
-    tagmode: "any",
-    format: "json"
-  })
-    .done(function( data ) {
-      $.each( data.items, function( i, item ) {
-        $( "<img>" ).attr( "src", item.media.m ).appendTo( "#images" );
-        if ( i === 3 ) {
-          return false;
-        }
-      });
-    });
-})();
+<script type="text/javascript">
+    function weather() {
+        var zip = $("#zip").val();
+        var weatherRequest = "api.openweathermap.org/data/2.5/weather?zip="+zip+",us"
+        $.getJSON(weatherRequest, function(data) {
+           alert("data.weather[1]");
+        });
+    };
 </script>
-
 </body>
 </html>
