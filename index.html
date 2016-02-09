@@ -93,11 +93,8 @@
                   "ownerId": 13316,
                   "topicIds": [330075656]
                 },
-                success: function(response){
-                    alert(success);
-                },
-                error: function(response){
-                    alert("Error");
+                response: function(response){
+                    alert(response);
                 }
            });
         }
@@ -110,7 +107,7 @@
         var zip = $("#zip").val();
         var weatherRequest = "api.openweathermap.org/data/2.5/weather?zip="+zip+",us"
         $.getJSON(weatherRequest, function(data) {
-           alert("data.weather[1]");
+           alert(data.weather[1]);
         });
     };
 </script>
