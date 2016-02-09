@@ -7,6 +7,7 @@
   <link rel="stylesheet" href="http://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/css/bootstrap.min.css">
   <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js"></script>
   <script src="http://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/js/bootstrap.min.js"></script>
+   
 
    <link rel="stylesheet/less" href="sparks_lab3.less">
    <script src="less.js" type="text/javascript"></script>
@@ -34,6 +35,30 @@
 		text-align: center;
 	}
 	</style>
+	<script>
+       function JSONTest(){
+           var hubspot = "https://api.hubapi.com/calendar/v1/events/task/600442?hapikey=demo";
+            $.getJSON({ hubspot, 
+                dataType: "json",  
+                data: {
+                  "eventDate": 1425760557000,
+                  "state": "DONE",
+                  "category": "BLOG_POST",
+                  "campaignGuid": "f43fe9fd-4082-4a45-93d8-cb8a88f01654",
+                  "name": "Test Blog Task With topics updated",
+                  "description": "Cool Post with Topics",
+                  "ownerId": 13316,
+                  "topicIds": [330075656]
+                },
+                success: function(response){
+                    console.log(response);
+                },
+                error: function(response){
+                    console.log("Error");
+                }
+           });
+        }
+    </script>
 </head>
 <body>
 
@@ -45,9 +70,29 @@
   <div id="main" class="ui-content">
 	<a href="game/starshipInvaders.html" class="btn btn-default btn-md" >Game</a>
 	<a href="dealership/bmwHomepage.html" class="btn btn-default btn-md">Dealership</a>
-	<form action="ajaxExample.php" method="POST"><input type="Submit" value="HubSpot Script"></input></form>
+	<a type="btn btn-default btn-md" onclick="JSONTest()" >HubSpot Script</a>
   </div>
+  <div id="images"></div>
 </div>  
+
+<script>
+(function() {
+  var flickerAPI = "http://api.flickr.com/services/feeds/photos_public.gne?jsoncallback=?";
+  $.getJSON( flickerAPI, {
+    tags: "mount rainier",
+    tagmode: "any",
+    format: "json"
+  })
+    .done(function( data ) {
+      $.each( data.items, function( i, item ) {
+        $( "<img>" ).attr( "src", item.media.m ).appendTo( "#images" );
+        if ( i === 3 ) {
+          return false;
+        }
+      });
+    });
+})();
+</script>
 
 </body>
 </html>
