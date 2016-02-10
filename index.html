@@ -79,7 +79,7 @@
 })();
 </script>
 <script>
-       function JSONTest(){
+       (function(){
            var hubspot = "https://api.hubapi.com/calendar/v1/events/task/";
             $.getJSON({ hubspot, 
                 dataType: "json",  
@@ -97,7 +97,7 @@
                     alert(response);
                 }
            });
-        }
+        })();
     </script>
 
 
