@@ -64,7 +64,7 @@
 (function() {
   var flickerAPI = "http://api.flickr.com/services/feeds/photos_public.gne?jsoncallback=?";
   $.getJSON( flickerAPI, {
-    tags: "nature",
+    tags: "auto",
     tagmode: "any",
     format: "json"
   })
@@ -80,17 +80,17 @@
 </script>
 <script>
        function JSONTest(){
-           var hubspot = "https://api.hubapi.com/calendar/v1/events/task/600442?hapikey=demo";
+           var hubspot = "https://api.hubapi.com/calendar/v1/events/task/";
             $.getJSON({ hubspot, 
                 dataType: "json",  
                 data: {
                   "eventDate": 1425760557000,
                   "state": "DONE",
                   "category": "BLOG_POST",
-                  "campaignGuid": "f43fe9fd-4082-4a45-93d8-cb8a88f01654",
+                  "campaignGuid": "1471f6bb-3e76-49e5-a706-5218708ecedc",
                   "name": "Test Blog Task With topics updated",
                   "description": "Cool Post with Topics",
-                  "ownerId": 13316,
+                  "ownerId": 2020263,
                   "topicIds": [330075656]
                 },
                 response: function(response){
@@ -104,13 +104,15 @@
 
 <script type="text/javascript">
     function weather() {
-        alert("Working");
+		alert("function called");
         var zip = $("#zip").val();
-        var weatherRequest = "api.openweathermap.org/data/2.5/weather?zip="+zip+",us";
-        $.getJSON(weatherRequest, function(data) {
-           alert(data.weather[1]);
-        });
-    };
+        var weatherRequest = "http://api.openweathermap.org/data/2.5/weather?zip="+zip+",us&appid=2527ce55469a6f180e01dc821c2b14fa";
+        $.getJSON({
+			url: weatherRequest,
+			dataType: 'jsonp',
+			function(data){alert("test");}
+        });	
+    }
 </script>
 </body>
 </html>
