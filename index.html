@@ -53,66 +53,6 @@
   <div id="main" class="ui-content">
 	<a href="game/starshipInvaders.html" class="btn btn-default btn-md" >Game</a>
 	<a href="dealership/bmwHomepage.html" class="btn btn-default btn-md">Dealership</a>
-	<a class="btn btn-default btn-md" onclick="JSONTest()" >HubSpot Script</a><br>
-      <input id="zip"></input>
-      <a class="btn btn-default btn-md" onclick="weather()" >Check Weather</a><br>
   </div>
-  <div id="images"></div>
-</div>  
-
-<script>
-(function() {
-  var flickerAPI = "http://api.flickr.com/services/feeds/photos_public.gne?jsoncallback=?";
-  $.getJSON( flickerAPI, {
-    tags: "auto",
-    tagmode: "any",
-    format: "json"
-  })
-    .done(function( data ) {
-      $.each( data.items, function( i, item ) {
-        $( "<img>" ).attr( "src", item.media.m ).appendTo( "#images" );
-        if ( i === 27 ) {
-          return false;
-        }
-      });
-    });
-})();
-</script>
-<script>
-       (function(){
-           var hubspot = "https://api.hubapi.com/calendar/v1/events/task/";
-            $.getJSON({ hubspot, 
-                dataType: "json",  
-                data: {
-                  "eventDate": 1425760557000,
-                  "state": "DONE",
-                  "category": "BLOG_POST",
-                  "campaignGuid": "1471f6bb-3e76-49e5-a706-5218708ecedc",
-                  "name": "Test Blog Task With topics updated",
-                  "description": "Cool Post with Topics",
-                  "ownerId": 2020263,
-                  "topicIds": [330075656]
-                },
-                response: function(response){
-                    alert(response);
-                }
-           });
-        })();
-    </script>
-
-
-
-<script type="text/javascript">
-    function weather() {
-		alert("function called");
-        var zip = $("#zip").val();
-        var weatherRequest = "http://api.openweathermap.org/data/2.5/weather?zip="+zip+",us&appid=2527ce55469a6f180e01dc821c2b14fa";
-        $.getJSON({
-			url: weatherRequest,
-			dataType: 'jsonp',
-			function(data){alert("test");}
-        });	
-    }
-</script>
 </body>
 </html>
