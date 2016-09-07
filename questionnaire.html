@@ -1,0 +1,35 @@
+<div class="question" ng-show="inProgress">
+	<div ng-show="!finished">
+		<h2 id="question">{{question}}</h2>
+		<ul id="options">
+			<li ng-repeat="option in options">
+				<div class="form-group col-sm-push-3 col-md-9">
+						<input type="{{type}}" name="option" id="selection{{option}}" value="{{option}}" class="slider-input">
+							<label for="selection{{option}}" class="slider-label">
+								{{option}}
+							</label>
+				</div>
+			</li>
+		</ul>
+		<div class="btnDiv">
+			<button class="btn btn-md btn-primary pull-right" ng-show="inProgress" ng-click="validate()">Next</button>
+		</div>
+				
+		<div ng-show="!valid">
+			<span ng-show="!valid">Please Select An Option.</span>
+		</div>
+	</div>
+</div>
+
+<div class="intro" ng-show="!inProgress">
+<h1 class="title">Entrepreneur Questionnaire</h1>
+	<p>Welcome to the Questionnaire</p>
+	<button class="btn btn-large btn-primary" id="start" ng-click="start()">Start</button>
+</div>
+
+
+<div class="intro" ng-show="finished && inProgress">
+<h1 class="title">That you for taking the questionnaire</h1>
+	<p>If you would like to take again please click the reset button.</p>
+	<button class="btn btn-large btn-primary" ng-click="reset()">Reset</button>
+</div>

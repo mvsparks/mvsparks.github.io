@@ -1,0 +1,69 @@
+html, body{
+	background-color: slategray;
+}
+
+li{
+	list-style-type: none;
+}
+
+.question{
+	margin: 0 auto !important;
+	width: 50% !important;
+}
+
+.intro{
+	margin: 0 auto !important;
+	width: 50% !important;
+	text-align: center;
+}
+
+.btn.btn-md{
+	display: block;
+	margin: 0 auto !important;
+	width: 100px !important;
+}
+
+.title{
+	text-align: center;
+}
+
+#question{
+	font-size: 1.5em;
+	text-align: center;
+}
+
+.btnDiv{
+	margin: 0 auto;
+	width: 125px;
+}
+
+.options{
+	text-align: center !important;
+}
+
+input[type='radio'],
+input[type='checkbox']{
+	visibility: hidden;
+}
+
+.slider-label {
+  float: left !important;
+  width: 50%;
+  line-height: 32px !important;
+  color: white;
+  text-align: center !important;
+  text-shadow: 0 -1px rgba(0, 0, 0, 0.2) !important;
+  cursor: pointer !important;
+}
+.slider-input:checked + .slider-label {
+  display: block;
+  font-weight: 500 !important;
+  color: #434248 !important;
+  background: white;
+  border-radius: 5px !important;
+  background: #fff !important; /* For browsers that do not support gradients */
+  background: -webkit-linear-gradient(#fff, #aaa) !important; /* For Safari 5.1 to 6.0 */
+  background: -o-linear-gradient(#fff, #aaa) !important; /* For Opera 11.1 to 12.0 */
+  background: -moz-linear-gradient(#fff, #aaa) !important; /* For Firefox 3.6 to 15 */
+  background: linear-gradient(#fff, #aaa) !important; /* Standard syntax */
+}
